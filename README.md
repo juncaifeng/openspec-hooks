@@ -37,7 +37,7 @@ specs/ 写保护、归档门禁、被拦时的正确动作），让 agent 在动
 
 | ID | Hook | 触发条件 | 级别 |
 |---|---|---|---|
-| A1 | pre-commit | 改 `openspec/specs/**` 却没有归档动作 —— specs 只能随 **archive** 合并 delta 演进（防止被拦的编辑搭 propose 提交便车）；仓库引导（unborn HEAD）首次创建豁免 | error |
+| A1 | pre-commit | 改 `openspec/specs/**` **内容**却没有归档动作 —— specs 只能随 **archive** 合并 delta 演进（防止被拦的编辑搭 propose 提交便车）；占位文件（`.gitkeep` 等点文件）忽略；仓库引导（unborn HEAD）首次创建豁免 | error |
 | A2 | pre-commit | 归档目录名 ≠ `YYYY-MM-DD-<change-name>`（error）；归档提交混入 openspec/ 外文件（warn） | error/warn |
 | A3 | pre-commit | change 缺 `proposal.md` / `tasks.md` | error |
 | A4 | pre-commit | delta 格式坏（`## ADDED Requirements` 拼错会**静默丢需求**）、层级错、需求为空；change 无 delta（warn） | error/warn |
