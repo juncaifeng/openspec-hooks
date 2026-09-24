@@ -147,6 +147,18 @@ test("A1: bootstrap (unborn HEAD) specs/ creation → exempt (info)", () => {
   if (!findings.some((f) => f.id === "A1" && f.severity === "info")) throw new Error("expected A1 info note");
 });
 
+test("A1: placeholder files in specs/ (.gitkeep etc.) are ignored → clean", () => {
+  const findings = runPre({
+    staged: [add("openspec/specs/.gitkeep"), add("openspec/specs/demo/.gitkeep"), add("openspec/specs/.DS_Store")],
+    files: {
+      "openspec/specs/.gitkeep": { index: "" },
+      "openspec/specs/demo/.gitkeep": { index: "" },
+      "openspec/specs/.DS_Store": { index: "" },
+    },
+  });
+  expectClean(findings);
+});
+
 test("A1: specs/ edit WITH archive/changes in same commit → ok", () => {
   const a = "openspec/changes/archive/2026-04-20-do-thing";
   const files = {
@@ -309,6 +321,19 @@ test("B5: requirement covered by task text → clean", () => {
       tasksIndex: tasksMd([["1.1", "Two-Factor Authentication", false]]),
       tasksHead: tasksMd([["1.1", "Two-Factor Authentication", false]]),
       delta: deltaMd(["Two-Factor Authentication"]),
+    }),
+  });
+  expectNot(findings, ["B5"]);
+});
+
+test("B5: requirement name carried by tasks.md heading (not task lines) → covered", () => {
+  const tasks = ["# Tasks", "", "## 分析模板", "- [ ] 1.1 实现模型层", "- [ ] 1.2 接入数据源"].join("\n");
+  const findings = runPre({
+    staged: [mod("src/a.ts"), mod("openspec/changes/do-thing/specs/demo/spec.md")],
+    files: baseFiles("do-thing", {
+      tasksIndex: tasks,
+      tasksHead: tasks,
+      delta: deltaMd(["分析模板"]),
     }),
   });
   expectNot(findings, ["B5"]);

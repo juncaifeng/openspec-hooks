@@ -1,6 +1,6 @@
 {
   "name": "openspec-hooks",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Git hooks that turn OpenSpec workflow conventions into enforced constraints — with a task-completion evidence chain (check ratio / evidence rate / archive gate)",
   "type": "module",
   "bin": {

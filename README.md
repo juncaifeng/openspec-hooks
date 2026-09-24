@@ -60,7 +60,7 @@ specs/ 写保护、归档门禁、被拦时的正确动作），让 agent 在动
 | B2 | commit-msg | 代码照写但 tasks 已 100% 勾完 → scope creep（warn）；有未完成任务没同步勾选 → 提示（info） | warn/info |
 | B3 | pre-commit | 单次勾选 > 5（批量）；change 创建即 100% 勾完（"零迭代完成"橡皮图章指纹） | warn |
 | B4 | pre-commit | 归档时任务未全部勾选 / tasks 为空 / 缺 proposal | error |
-| B5 | pre-commit | delta 的 ADDED/MODIFIED 需求在 tasks.md 找不到对应任务 | warn |
+| B5 | pre-commit | delta 的 ADDED/MODIFIED 需求在 tasks.md 找不到对应任务（任务行或**全文/分组标题**出现需求名即算覆盖） | warn |
 | B6 | pre-commit | 任务 `[x]→[ ]` 回退但 proposal.md 的 Scope 未同步 | warn |
 | B7 | pre-push | active change 超 7 天无提交（僵尸 change） | warn |
 | B8 | pre-push | **证据率回溯**：git log 解析每个勾选事件，证据率 < 50% → "勾选与产物脱节" | warn |
