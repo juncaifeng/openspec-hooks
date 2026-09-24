@@ -208,6 +208,36 @@ function commitExpect(dir, msg, wantOk, label) {
   commitExpect(dir, "feat: finish do-thing\n\nChange-Id: do-thing", false, "S6 bundle hooks block evidence-less check (B1)");
 }
 
+// S7 — install deploys the SKILL.md contract; uninstall removes it
+{
+  const dir = makeRepo("s7");
+  sh(dir, "node", [path.join(pkgRoot, "bin", "openspec-hooks.mjs"), "install", "--repo", dir]);
+  const skillPath = path.join(dir, ".agents", "skills", "openspec-hooks", "SKILL.md");
+  const deployed =
+    fs.existsSync(skillPath) &&
+    fs.readFileSync(skillPath, "utf8").includes("Change-Id");
+  if (deployed) pass++;
+  else fail++;
+  console.log(`${deployed ? "✔" : "✖"} S7 install deploys SKILL.md to .agents/skills`);
+
+  // mirror into an existing agent skill dir
+  const dir2 = makeRepo("s7b");
+  fs.mkdirSync(path.join(dir2, ".claude", "skills"), { recursive: true });
+  sh(dir2, "node", [path.join(pkgRoot, "bin", "openspec-hooks.mjs"), "install", "--repo", dir2]);
+  const mirrored =
+    fs.existsSync(path.join(dir2, ".agents", "skills", "openspec-hooks", "SKILL.md")) === false &&
+    fs.existsSync(path.join(dir2, ".claude", "skills", "openspec-hooks", "SKILL.md"));
+  if (mirrored) pass++;
+  else fail++;
+  console.log(`${mirrored ? "✔" : "✖"} S7 install mirrors into existing .claude/skills only`);
+
+  sh(dir, "node", [path.join(pkgRoot, "bin", "openspec-hooks.mjs"), "uninstall", "--repo", dir]);
+  const removed = !fs.existsSync(skillPath) && !fs.existsSync(path.join(dir, ".openspec-hooks"));
+  if (removed) pass++;
+  else fail++;
+  console.log(`${removed ? "✔" : "✖"} S7 uninstall removes skills + bundle`);
+}
+
 // ---------------------------------------------------------------------------
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail > 0 ? 1 : 0);

@@ -8,9 +8,19 @@
 
 ```bash
 npm i -D openspec-hooks
-npx openspec-hooks install        # 复制自包含 .openspec-hooks/ bundle + 设置 core.hooksPath
-npx openspec-hooks uninstall      # 卸载
+npx openspec-hooks install        # 复制自包含 .openspec-hooks/ bundle + 设置 core.hooksPath + 部署 SKILL.md
+npx openspec-hooks uninstall      # 卸载（含已部署的 skills）
 ```
+
+**install 同时会部署一份 `SKILL.md` 提交契约**（教给 AI agent：`Change-Id` trailer、证据勾选、
+specs/ 写保护、归档门禁、被拦时的正确动作），让 agent 在动手前就知道规则，而不是撞了报错再学：
+
+| 选项 | skill 落点 |
+|---|---|
+| （默认） | 项目级：已存在的 `.agents/skills` / `.claude/skills` / `.codex/skills` **全部**装一份；都不存在则创建 `.agents/skills` |
+| `--skills-global` | 用户级：已存在的 `~/agents/skills` / `~/.agents/skills` / `~/.claude/skills`；都不存在则创建 `~/agents/skills` |
+| `--skills-dir <dir>` | 精确指定任意目录 |
+| `--no-skills` | 不装 skill（只挂 hooks） |
 
 | Hook | 职责 | 失败效果 |
 |---|---|---|
