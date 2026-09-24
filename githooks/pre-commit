@@ -1,0 +1,9 @@
+#!/bin/sh
+# openspec-hooks — thin wrapper; all logic lives in bin/openspec-hooks.mjs
+HOOK_DIR=$(dirname "$0")
+if command -v node >/dev/null 2>&1; then
+  exec node "$HOOK_DIR/../bin/openspec-hooks.mjs" pre-commit "$@"
+else
+  echo "[openspec-hooks] node 不在 PATH 上 — 检查被跳过（fail-open，请安装 Node >= 18）" >&2
+  exit 0
+fi

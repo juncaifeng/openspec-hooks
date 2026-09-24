@@ -1,0 +1,6 @@
+#!/bin/sh
+HOOK_DIR=$(dirname "$0")
+if command -v node >/dev/null 2>&1; then
+  node "$HOOK_DIR/../bin/openspec-hooks.mjs" status || true
+fi
+exit 0

@@ -1,0 +1,44 @@
+{
+  "name": "openspec-hooks",
+  "version": "0.1.0",
+  "description": "Git hooks that turn OpenSpec workflow conventions into enforced constraints — with a task-completion evidence chain (check ratio / evidence rate / archive gate)",
+  "type": "module",
+  "bin": {
+    "openspec-hooks": "bin/openspec-hooks.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "githooks",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/run-tests.mjs && node test/integration.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "openspec",
+    "git-hooks",
+    "spec-driven-development",
+    "sdd",
+    "ai-agents",
+    "hooks",
+    "workflow"
+  ],
+  "author": "juncaifeng",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juncaifeng/openspec-hooks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/juncaifeng/openspec-hooks/issues"
+  },
+  "homepage": "https://github.com/juncaifeng/openspec-hooks#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
